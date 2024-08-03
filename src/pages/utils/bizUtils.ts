@@ -4,19 +4,20 @@
  * @param questions
  * @param question_results
  */
-
 export function getBestQuestionResult(answerList, questions, question_results) {
+  // 确保输入是数组
+  if (!Array.isArray(answerList) || !Array.isArray(questions) || !Array.isArray(question_results)) {
+    throw new Error("Expected arrays as input");
+  }
+
   // 初始化一个对象，用于存储每个选项的计数
   const optionCount = {};
-
-  // 用户选择 A, B, C
-  // 对应 result：I, I, J
-  // optionCount[I] = 2; optionCount[J] = 1
 
   // 遍历题目列表
   for (const question of questions) {
     // 遍历答案列表
-    for (const answer of answerList) {      // 遍历题目中的选项
+    for (const answer of answerList) {
+      // 遍历题目中的选项
       for (const option of question.options) {
         // 如果答案和选项的key匹配
         if (option.key === answer) {
@@ -35,12 +36,18 @@ export function getBestQuestionResult(answerList, questions, question_results) {
     }
   }
 
+  console.log("Option Count:", optionCount);
+
+
   // 初始化最高分数和最高分数对应的评分结果
   let maxScore = 0;
   let maxScoreResult = question_results[0];
 
   // 遍历评分结果列表
   for (const result of question_results) {
+    if (!Array.isArray(result.resultProp)) {
+      throw new Error("resultProp should be an array");
+    }
     // 计算当前评分结果的分数
     const score = result.resultProp.reduce((count, prop) => {
       return count + (optionCount[prop] || 0);
@@ -137,3 +144,4 @@ const question_results = [
 ];
 
 console.log(getBestQuestionResult(answerList, questions, question_results));
+

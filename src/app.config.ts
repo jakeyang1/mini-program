@@ -3,7 +3,7 @@ export default defineAppConfig({
 
   pages: [
     'pages/index/index',
-    'pages/doQuestion/index',
+    'pages/doQuestion/question',
     'pages/result/result',
 
 

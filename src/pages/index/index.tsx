@@ -25,7 +25,7 @@ export default () => {
         circle
         onClick={() => {
           Taro.navigateTo({
-            url: "/pages/doQuestion/index",
+            url: "/pages/doQuestion/question",
           });
         }}
       >

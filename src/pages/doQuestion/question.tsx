@@ -3,7 +3,7 @@ import { AtButton, AtRadio } from "taro-ui";
 import { useEffect, useState } from "react";
 import Taro from "@tarojs/taro";
 import "taro-ui/dist/style/components/button.scss"; // 按需引入
-import "./index.scss";
+import "./question.scss";
 import GlobalFooter from "../../components/GlobalFooter";
 import questions from "../../components/data/questions.json";
 
@@ -16,7 +16,8 @@ export default () => {
   const [current, setCurrent] = useState<number>(1);
 
   //Current topic
-  const [currentQuestion, setCurrentQuestion] = useState(questions[0]);
+  const [currentQuestion, setCurrentQuestion] = useState<Question>(questions[0]);
+
 
   const questionOptions = currentQuestion.options.map((option) => {
     return { label: `${option.key}. ${option.value}`, value: option.key };
@@ -32,6 +33,10 @@ export default () => {
   useEffect(() => {
     setCurrentQuestion(questions[current - 1]);
     setCurrentAnswer(answerList[current - 1]);
+
+    console.log('当前题目:', currentQuestion);//故障
+    console.log('当前答案:', currentAnswer);//故障
+    console.log('答案列表:', answerList);//故障
   }, [current]);
 
   return (
@@ -69,6 +74,7 @@ export default () => {
           circle
           disabled={!currentAnswer}
           onClick={() => {
+            console.log('提交前的答案列表:', answerList);//故障
             //Pass the answer
             Taro.setStorageSync("answerList", answerList);
             //Go to the result page
